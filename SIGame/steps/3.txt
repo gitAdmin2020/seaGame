@@ -1,0 +1,103 @@
+
+StringList eIds;
+StringList eX;
+StringList eY;
+int i=0;
+float x,y;
+boolean mv=false;
+float easing = 0.01;
+
+color bg;
+
+void setup() {
+  size(700,400);
+  eIds = new StringList();
+  eX = new StringList();
+  eY = new StringList();
+  
+  x=width/2;
+  y=height/2;
+  
+  bg=color(50,50,255);
+
+}
+
+void draw() {
+  
+  background(bg);
+  /* */
+  
+  if (mv){
+    
+    float tx=float(eX.get(i-1));
+    float ty=float(eY.get(i-1));
+    
+    strokeWeight(1);
+    stroke(100,255,100);
+    fill(bg);
+    if (cos(millis()/100)>0)
+    rect(tx-5,ty-5,10,10);
+    else
+    rect(tx-10,ty-10,20,20);
+    
+    strokeWeight(2);
+    //stroke(255);
+  
+    point(tx,ty);
+ 
+    
+   }
+  
+  if (mv){
+  float targetX = float(eX.get(i-1));
+  float dx = targetX - x;
+  x += dx * easing;
+  
+  float targetY = float(eY.get(i-1));
+  float dy = targetY - y;
+  y += dy * easing; 
+    
+  }
+  
+  pushMatrix();
+  strokeWeight(0);
+  translate(x, y);
+  float a=0;
+  //a = atan2(mouseY-y, mouseX-x);
+  if (!mv)a=0;
+  else
+  a = atan2(float(eY.get(i-1))-y, float(eX.get(i-1))-x);
+  rotate(a);
+  fill(255);
+  rect(-10, -2.5, 20, 5);
+  popMatrix();
+
+ 
+  
+  
+   
+  for(int i=0; i<eIds.size();i++){
+    //point(float(eX.get(i)),float(eY.get(i)));
+  }
+  
+  
+}
+
+void mousePressed(){
+  mv=true;
+  eIds.append(str(i));
+  eX.append(str(mouseX));
+  eY.append(str(mouseY));
+  i++;
+}
+
+void keyPressed(){
+  //int item = int(eIds.get(i));
+  /*
+  eIds.append(str(i));
+  eX.append(str(random(20,width-40)));
+  eY.append(str(random(20,height-40)));
+  i++;
+  */
+}
+
